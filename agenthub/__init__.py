@@ -1,42 +1,11 @@
-from dotenv import load_dotenv
 
-from opendevin.controller.agent import Agent
+"""
+The AgentHub is a modular and extensible framework for building and deploying intelligent agents within the UnityGrid AIOS.
+"""
 
-from .micro.agent import MicroAgent
-from .micro.registry import all_microagents
-
-load_dotenv()
-
-
-from . import (  # noqa: E402
-    browsing_agent,
-    codeact_agent,
-    codeact_swe_agent,
-    delegator_agent,
-    dummy_agent,
-    planner_agent,
-)
-
-__all__ = [
-    'codeact_agent',
-    'codeact_swe_agent',
-    'planner_agent',
-    'delegator_agent',
-    'dummy_agent',
-    'browsing_agent',
-]
-
-for agent in all_microagents.values():
-    name = agent['name']
-    prompt = agent['prompt']
-
-    anon_class = type(
-        name,
-        (MicroAgent,),
-        {
-            'prompt': prompt,
-            'agent_definition': agent,
-        },
-    )
-
-    Agent.register(name, anon_class)
+from .browsing_agent import BrowsingAgent
+from .codeact_agent import CodeActAgent
+from .codeact_swe_agent import CodeActSWEAgent
+from .delegator_agent import DelegatorAgent
+from .dummy_agent import DummyAgent
+from .planner_agent import PlannerAgent
